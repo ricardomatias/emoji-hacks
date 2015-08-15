@@ -31,16 +31,5 @@ request
       }
     });
 
-    fs.writeFileSync('emojis.json', JSON.stringify(emojis));
-
-    // var emojis = [];
-    // var appleColumn = document.querySelectorAll('.android');
-
-    // for (var i = 0; i < appleColumn.length; i += 1) {
-    //     if (appleColumn[i].innerHTML !== '') {
-    //         emojis.push(appleColumn[i].innerHTML);
-    //     }
-    // }
-
-    // console.log(emojis);
+    fs.writeFileSync('emojis.json', JSON.stringify(emojis, null, '\t'));
   });
