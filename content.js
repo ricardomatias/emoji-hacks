@@ -1,25 +1,44 @@
+'use strict';
+
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    if (request.message === "clicked_browser_action") {
+  if (request.message === "clicked_browser_action") {
 
-      var html = document.body.innerHTML;
+    var emojisURL = chrome.extension.getURL('emojis.json');
 
-      var emojisURL = chrome.extension.getURL('emojis.json');
+    var emojisJSON = pegasus(emojisURL);
 
-      $.getJSON(emojisURL, function(data) {
-        var name;
+    var html = document.body.innerHTML;
 
-        for (var i = 0 ; i < data.length; i++) {
-          name = data[i].name;
+    var htmlTextMatches = html.match(/>.*?</gi).filter(function(elem) {
+      return /\w/.test(elem) && elem !== '><';
+    }).join('☃');
 
-          // name = name.replace(/\+/, '').split(' ').join('|');
-          name = name.split(' ')[0];
+    var diff = htmlTextMatches.split('☃');
 
-          var pattern = new RegExp(name, "ig");
+    emojisJSON.then(function(data) {
+      var name;
 
-          html.replace(pattern, data[i].emoji);
+      for (var i = 0 ; i < data.length; i++) {
+        name = data[i].name;
+
+        name = name.split(' ')[0];
+
+        var patt = new RegExp(name, 'ig');
+
+        htmlTextMatches = htmlTextMatches.replace(patt, emojiSpan(name, data[i].emoji));
+      }
+
+      htmlTextMatches.split('☃').forEach(function(elem, idx) {
+        if (elem !== diff[idx]) {
+          html = html.replace(diff[idx], elem);
         }
-
-        document.body.innerHTML = html;
       });
-    }
-  });
+
+      document.body.innerHTML = html;
+    });
+  }
+});
+
+function emojiSpan(name, emoji) {
+  return '<span title="' + name.toLowerCase() + '">' + emoji + '</span>';
+}
