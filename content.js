@@ -1,7 +1,10 @@
 'use strict';
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+
   if (request.message === "clicked_browser_action") {
+
+    console.log("click");
 
     var emojisURL = chrome.extension.getURL('emojis.json');
 
