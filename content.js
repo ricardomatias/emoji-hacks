@@ -4,7 +4,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
   console.log("some msg");
   
-  if (request.message === "clicked_browser_action") {
+  if (request.message === "keep") {
 
     console.log("click");
 
