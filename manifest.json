@@ -10,7 +10,13 @@
       "matches": [
         "<all_urls>"
       ],
-      "js": ["pegasus.min.js", "content.js"]
+      "js": [
+        "pegasus.min.js",
+        "content.js"
+      ],
+      "css": [
+        "styles.css"
+      ]
     }
   ],
   "browser_action": {

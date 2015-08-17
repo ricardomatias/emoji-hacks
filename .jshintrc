@@ -1,0 +1,20 @@
+{
+  "browser": true,
+  "node": true,
+  "bitwise": true,
+  "camelcase": true,
+  "curly": true,
+  "immed": true,
+  "newcap": true,
+  "noarg": true,
+  "undef": true,
+  "strict": true,
+  "unused": "vars",
+  "maxlen": 120,
+  "globals": {
+    "console": true,
+    "pegasus": true,
+    "chrome": true,
+    "document": true
+  }
+}
