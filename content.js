@@ -2,9 +2,11 @@
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
+    console.log(request.message);
+
+
   if (request.message === "keep") {
 
-    console.log("click");
 
     var emojisURL = chrome.extension.getURL('emojis.json');
 
@@ -59,7 +61,11 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
       document.body.innerHTML = html;
     });
-  }
+  } 
+  /*else {
+    console.log(request.message);
+  }*/
+
 });
 
 function emojiSpan(name, emoji) {
