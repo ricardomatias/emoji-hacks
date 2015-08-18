@@ -13,7 +13,7 @@
   "maxlen": 120,
   "globals": {
     "console": true,
-    "pegasus": true,
+    "pegasus": false,
     "chrome": true,
     "document": true
   }

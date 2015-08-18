@@ -2,18 +2,13 @@
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
-    console.log(request.message);
+  var html = document.body.innerHTML;
 
+  var emojisURL = chrome.extension.getURL('emojis.json');
+
+  var emojisJSON = pegasus(emojisURL);
 
   if (request.message === "keep") {
-
-
-    var emojisURL = chrome.extension.getURL('emojis.json');
-
-    // Get JSON file with emojis
-    var emojisJSON = pegasus(emojisURL);
-
-    var html = document.body.innerHTML;
 
     // Grab all the displayed text
     var htmlTextMatches = html.match(/>.*?</gi).filter(function(elem) {
@@ -57,15 +52,40 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         var patt = new RegExp(elem.emoji, 'ig');
 
         html = html.replace(patt, emojiSpan(elem.name, elem.emoji));
+
       });
 
       document.body.innerHTML = html;
-    });
-  } 
-  /*else {
-    console.log(request.message);
-  }*/
 
+    });
+
+  } else {
+
+    emojisJSON.then(function(data) {
+      var name,
+          i = 0;
+
+      setTimeout(updateDOM, 50);
+
+      function updateDOM() {
+        name = data[i].name;
+
+        name = name.split(' ')[0];
+
+        var pattern = new RegExp(name, "ig");
+
+        html = html.replace(pattern, data[i].emoji);
+
+        document.body.innerHTML = html;
+
+        i += 1;
+
+        if (i < data.length) {
+          setTimeout(updateDOM, 50);
+        }
+      }
+    });
+  }
 });
 
 function emojiSpan(name, emoji) {
